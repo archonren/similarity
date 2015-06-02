@@ -237,6 +237,6 @@ class data(object):
         if self.verbose:
             print('start pearson')
         print(key,self.user_data[key])
-        print ('top %d'% topn)
+        print('top %d similar users'% topn)
         for item in self.most_similar(key,topn):
             print(item,self.user_data[item])
