@@ -52,7 +52,7 @@ class data(object):
             print('word to vec model loaded')
 
     def load_user_data(self):
-        with open("mefi.json") as json_file:
+        with open(self.user_data_path) as json_file:
             self.user_data = json.load(json_file)
         json_file.close()
 
