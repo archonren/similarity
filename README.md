@@ -2,7 +2,10 @@
 find the most similar user
 ## useage
 run in command line:
-python main.py arg1 (id for users)
+python main.py userkey1 uesrkey2 userkey3 (optional: --k=somenumber --model_path=path to model file --user_data_path = path to user data --verbosity = True or False, show progress)
+example:
+python main.py 23456 56447 --k=2000
+
 and it will give a list of top N (default 3) users that are most similar to the user
 ##warning
 running this code first time is very very slow because it needs to create all the required model files, once those files are created, the code will be much faster. 
