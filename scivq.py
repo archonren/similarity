@@ -85,7 +85,7 @@ from numpy.random import randint
 from numpy import (shape, zeros, sqrt, argmin, minimum, array, newaxis,
     common_type, single, double, take, std, mean)
 import numpy as np
-from scipy._lib._util import _asarray_validated
+from _util import _asarray_validated
 from scipy.cluster import _vq
 
 
