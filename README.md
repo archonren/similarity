@@ -2,13 +2,19 @@
 find the most similar user
 ## useage
 run in command line:
+
 python main.py userkey1 uesrkey2 userkey3 (optional: --k=somenumber --model_path=path to model file --user_data_path = path to user data --patch_path = path to patch file --verbosity = True or False, show progress)
+
 example:
+
 python main.py 23456 56447 --k=2000
+
 if update file is provided, run as:
+
 python main.py 23456 --patch_path=update.json
 
 and it will give a list of top N (default 3) users that are most similar to the user
+
 ##warning
 running this code first time is very very slow because it needs to create all the required model files, once those files are created, the code will be much faster. 
 ## todo
