@@ -1,13 +1,14 @@
 from scivq import *
-from gensim.models import Word2Vec
-from gensim import matutils
-from numpy import float32 as REAL,array,sum,zeros
+from numpy import sum,zeros
 from scipy.stats.stats import pearsonr
-import json,pickle
+import pickle
+from patch import *
+
+
 class data(object):
 
-    def __init__(self,k=1000,model_path='GoogleNews.bin',user_data_path='mefi.json',verbosity = False):
-        self.tag_data = {}
+    def __init__(self,k=1000,model_path='GoogleNews.bin',user_data_path='mefi.json',patch_path = None,verbosity = False):
+        self.tag_data = []
         self.user_data = {}
         self.k = k
         self.model_path = model_path
@@ -19,6 +20,7 @@ class data(object):
         self.corr_dict = {}
         self.abnormal = []
         self.user_item_dict = {}
+        self.patch_path = patch_path
         self.verbose = verbosity
 
     def union(self,a, b):
@@ -31,12 +33,14 @@ class data(object):
         temp_data = []
         with open(self.user_data_path) as json_file:
             user_data = json.load(json_file)
+        json_file.close()
         for value in user_data.values():
             tags = self.union(value,tags)
             i += 1
             if int(i/10000)*10000 == i:
                 tags_set.append(tags)
                 tags = []
+        self.tag_data = tags
         for k in tags_set:
             self.tag_data = self.union(k,temp_data)
 
@@ -52,8 +56,13 @@ class data(object):
             print('word to vec model loaded')
 
     def load_user_data(self):
-        with open(self.user_data_path) as json_file:
+        with open("mefi.json") as json_file:
             self.user_data = json.load(json_file)
+        json_file.close()
+
+    def save_user_data(self):
+        with open("mefi.json","w") as json_file:
+            json.dump(self.user_data,json_file)
         json_file.close()
 
     def load_tag_data(self):
@@ -218,6 +227,18 @@ class data(object):
         except KeyError:
             print('key not in dict')
 
+    def update(self):
+        if self.patch_path != None:
+            y = patchdata()
+            y.load()
+            self.user_data.update(y.user_data)
+            self.tag_data = self.tag_data + y.tag_data
+            self.minimium_model.update(y.minimium_model)
+            self.no_match_tag += y.no_match_tag
+            self.save_user_data()
+            self.save_tag_data()
+            self.save_minimium_model()
+
     def output(self,key,topn = 3):
         if self.verbose:
             print('load tag')
@@ -228,6 +249,9 @@ class data(object):
         if self.verbose:
             print('load model')
         self.load_minimium_model()
+        if self.verbose:
+            print('updating file')
+        self.update()
         if self.verbose:
             print('load class')
         self.load_clustering_result()
