@@ -229,7 +229,7 @@ class data(object):
 
     def update(self):
         if self.patch_path != None:
-            y = patchdata()
+            y = patchdata(self.model_path,self.patch_path,self.verbose)
             y.load()
             self.user_data.update(y.user_data)
             self.tag_data = self.tag_data + y.tag_data
@@ -254,10 +254,16 @@ class data(object):
         self.update()
         if self.verbose:
             print('load class')
-        self.load_clustering_result()
-        if self.verbose:
-            print('load vote')
-        self.load_vote_table()
+        if self.patch_path != None:
+            self.clustering()
+            self.save_clustering_result()
+            self.vote()
+            self.save_vote_table()
+        else:
+            self.load_clustering_result()
+            if self.verbose:
+                print('load vote')
+            self.load_vote_table()
         if self.verbose:
             print('start pearson')
         print(key,self.user_data[key])
