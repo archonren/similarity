@@ -4,7 +4,7 @@ from gensim.models import Word2Vec
 from gensim import matutils
 from numpy import float32 as REAL,array
 class patchdata(object):
-    def __init__(self,patch_patch='update.json',model_path = 'GoogleNews.bin',verbosity = False):
+    def __init__(self,model_path,patch_patch,verbosity):
         self.patch_path = patch_patch
         self.user_data = {}
         self.tag_data = []
@@ -30,7 +30,6 @@ class patchdata(object):
         temp_data = []
         for value in self.user_data.values():
             tags = self.union(value,tags)
-            print(tags)
             i += 1
             if int(i/10000)*10000 == i:
                 tags_set.append(tags)
