@@ -1,7 +1,7 @@
 from scivq import *
-from numpy import sum,zeros
+from numpy import sum,zeros,dot
 from scipy.stats.stats import pearsonr
-import pickle
+import pickle,operator
 from patch import *
 
 
@@ -270,3 +270,23 @@ class data(object):
         print('top %d similar users'% topn)
         for item in self.most_similar(key,topn):
             print(item,self.user_data[item])
+
+    def similar_tag(self,tag):
+        if self.verbose:
+            print('load tag')
+        self.load_tag_data()
+        if self.verbose:
+            print('load user')
+        self.load_user_data()
+        if self.verbose:
+            print('load model')
+        self.load_minimium_model()
+        if self.verbose:
+            print('updating file')
+        self.update()
+        code = {}
+        for key in self.minimium_model.keys():
+            if key != tag:
+                code[key] = dot(matutils.unitvec(self.minimium_model[key]),matutils.unitvec(self.minimium_model[tag]))
+        sort_code = sorted(code.items(), key=operator.itemgetter(1),reverse=True)
+        return sort_code
