@@ -210,7 +210,6 @@ class users_data(object):
                 if v == sig:
                     pool.append([self.match_count[k],k])
             outcome = sorted(pool,reverse=False)
-            print(outcome)
             if len(outcome) != 0:
                 self.out[key]=outcome[0][1]
                 self.match_count[outcome[0][1]] +=1
