@@ -22,7 +22,13 @@ python tag_matcher.py tag1 tag2 (optional: --topn=default 5 --model_path=path to
 
 example:
 
-python tag_matcher.py maths physics --topn=10
+python tag_matcher.py maths physics --topn=
+
+matching design group:
+
+run in command line:
+
+python running_script_for_design_group.py
 
 ##warning
 running this code first time is very very slow because it needs to create all the required model files, once those files are created, the code will be much faster. 
