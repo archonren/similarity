@@ -12,3 +12,4 @@ if __name__ == '__main__':
     x.vote()
     x.final_suggestion()
     print(x.out)
+    print(x.match_count)
